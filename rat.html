@@ -579,39 +579,44 @@
         // script de fechamento
         function gerarScriptFechamento() {
             // Coleta de dados dos campos
-            const tecnico = document.getElementById("tecnico")?.value || "";
-            const parceiro = document.getElementById("empresa")?.value || "";
-            const cliente = document.getElementById("razao_social")?.value || "";
-			const endereco = document.getElementById("endereco")?.value || "";
-            const chamado = document.getElementById("chamado")?.value || "";
-			const data = document.getElementById("data")?.value || "";
+            const tecnico = (document.getElementById("tecnico")?.value || "").toUpperCase();
+            const parceiro = (document.getElementById("empresa")?.value || "").toUpperCase();
+            const cliente = (document.getElementById("razao_social")?.value || "").toUpperCase();
+            const endereco = (document.getElementById("endereco")?.value || "").toUpperCase();
+            const chamado = (document.getElementById("chamado")?.value || "").toUpperCase();
+            const data = document.getElementById("data")?.value || "";
             const inicio = document.getElementById("inicio")?.value || "";
             const termino = document.getElementById("termino")?.value || "";
-            const problema = document.getElementById("sintoma")?.value || "";
-            const atividade = document.getElementById("relatorio")?.value || "";
-            const patrimonio = document.getElementById("patrimonio_a")?.value || "";
-            const serie = document.getElementById("serie_a")?.value || "";
-            const modelo = document.getElementById("modelo_a")?.value || "";
-            const status = document.getElementById("status_chamado")?.value || "";
-            const acompanhante = document.getElementById("nome_responsavel")?.value || "";
+            const problema = (document.getElementById("sintoma")?.value || "").toUpperCase();
+            const atividade = (document.getElementById("relatorio")?.value || "").toUpperCase();
+            const patrimonio = (document.getElementById("patrimonio_a")?.value || "").toUpperCase();
+            const serie = (document.getElementById("serie_a")?.value || "").toUpperCase();
+            const modelo = (document.getElementById("modelo_a")?.value || "").toUpperCase();
+            const status = (document.getElementById("status_chamado")?.value || "").toUpperCase();
+            const acompanhante = (document.getElementById("nome_responsavel")?.value || "").toUpperCase();
 
-            // Montagem do texto - Removida a linha sobre retirada conforme solicitado
-            let texto = `TÉCNICO: ${tecnico}
-PARCEIRO: ${parceiro}
-CLIENTE: ${cliente}
-ENDEREÇO: ${endereco}
-CHAMADO: ${chamado}
-DATA DO ATENDIMENTO: ${data}
-INÍCIO DA ATIVIDADE: ${inicio}
-TÉRMINO DA ATIVIDADE: ${termino}
-PROBLEMA IDENTIFICADO: ${problema}
-ATIVIDADE REALIZADA: ${atividade}
-N.º PATRIMÔNIO/SERIAL: ${patrimonio} / ${serie}
-MODELO DO EQUIPAMENTO: ${modelo}
-STATUS DO CHAMADO: ${status}
-NOME DE QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
+            // Formatação da data para DD/MM/AAAA
+            let dataFormatada = data;
+            if (data.includes("-")) {
+                const p = data.split("-");
+                dataFormatada = `${p[2]}/${p[1]}/${p[0]}`;
+            }
 
-            texto = texto.toUpperCase().trim();
+            // Montagem do texto com negrito nos rótulos usando asteriscos
+            let texto = `*TÉCNICO:* ${tecnico}
+*PARCEIRO:* ${parceiro}
+*CLIENTE:* ${cliente}
+*ENDEREÇO:* ${endereco}
+*CHAMADO:* ${chamado}
+*DATA DO ATENDIMENTO:* ${dataFormatada}
+*INÍCIO DA ATIVIDADE:* ${inicio}
+*TÉRMINO DA ATIVIDADE:* ${termino}
+*PROBLEMA IDENTIFICADO:* ${problema}
+*ATIVIDADE REALIZADA:* ${atividade}
+*N.º PATRIMÔNIO/SERIAL:* ${patrimonio} / ${serie}
+*MODELO DO EQUIPAMENTO:* ${modelo}
+*STATUS DO CHAMADO:* ${status}
+*NOME DE QUEM ACOMPANHOU A ATIVIDADE:* ${acompanhante}`;
 
             // Detecta se está em celular
             const emCelular = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -637,10 +642,13 @@ NOME DE QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
                 balao.style.maxWidth = "90%";
                 balao.style.maxHeight = "85%";
                 balao.style.overflowY = "auto";
-                balao.style.fontSize = "12px";
-                balao.style.fontFamily = "monospace";
+                balao.style.fontSize = "14px";
+                balao.style.fontFamily = "sans-serif";
                 balao.style.whiteSpace = "pre-wrap";
-                balao.textContent = texto;
+                
+                // Exibição visual no balão (transforma *texto* em negrito real para o usuário ver)
+                const visualTexto = texto.replace(/\*(.*?)\*/g, "<strong>$1</strong>");
+                balao.innerHTML = `<div style="margin-bottom:15px;">${visualTexto}</div>`;
 
                 // Botão de compartilhar
                 const botaoCompartilhar = document.createElement("button");
@@ -653,21 +661,27 @@ NOME DE QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
                 botaoCompartilhar.style.borderRadius = "8px";
                 botaoCompartilhar.style.padding = "10px 15px";
                 botaoCompartilhar.style.display = "block";
-                botaoCompartilhar.style.marginLeft = "auto";
-                botaoCompartilhar.style.marginRight = "auto";
+                botaoCompartilhar.style.width = "100%";
 
                 botaoCompartilhar.onclick = async () => {
                     if (navigator.share) {
                         try {
                             await navigator.share({
                                 title: "Script de Fechamento",
-                                text: texto,
+                                text: texto, // O texto vai com os asteriscos para o WhatsApp entender o negrito
                             });
                         } catch (err) {
-                            alert("Compartilhamento cancelado ou não suportado.");
+                            // Erro silencioso
                         }
                     } else {
-                        alert("Este dispositivo não suporta compartilhamento direto.");
+                        // Fallback: copiar para área de transferência
+                        const el = document.createElement('textarea');
+                        el.value = texto;
+                        document.body.appendChild(el);
+                        el.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(el);
+                        alert("Texto copiado para a área de transferência!");
                     }
                 };
 
@@ -682,8 +696,7 @@ NOME DE QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
                 botaoFechar.style.borderRadius = "8px";
                 botaoFechar.style.padding = "10px 15px";
                 botaoFechar.style.display = "block";
-                botaoFechar.style.marginLeft = "auto";
-                botaoFechar.style.marginRight = "auto";
+                botaoFechar.style.width = "100%";
                 botaoFechar.onclick = () => document.body.removeChild(overlay);
 
                 // Montagem do balão
@@ -692,9 +705,9 @@ NOME DE QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
                 overlay.appendChild(balao);
                 document.body.appendChild(overlay);
             } else {
-                // Computador: abre nova janela simples
+                // Computador: abre nova janela com o texto cru para copiar
                 const novaJanela = window.open("", "ScriptFechamento", "width=700,height=600");
-                novaJanela.document.write(`<pre style="font-family: monospace; font-size: 16px; white-space: pre-wrap;">${texto}</pre>`);
+                novaJanela.document.write(`<pre style="font-family: monospace; font-size: 16px; white-space: pre-wrap; padding:20px;">${texto}</pre>`);
                 novaJanela.document.title = "SCRIPT DE FECHAMENTO";
             }
         }
@@ -747,7 +760,7 @@ NOME DE QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
             desenhando = true; 
             const rect = canvas.getBoundingClientRect(); 
             lastX = e.touches[0].clientX - rect.left; 
-            lastY = e.touches[0].clientY - rect.top; 
+            lastY = e.touches[0].top; 
             e.preventDefault(); 
         }, { passive: false });
         canvas.addEventListener('touchend', () => desenhando = false);
