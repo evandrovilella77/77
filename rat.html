@@ -1551,7 +1551,8 @@ NOME DE QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
                 doc.setFont(undefined, 'normal');
 
                 const xCentroPagina = 105; 
-                const yBase = 250; 
+                // Aumentado yBase de 250 para 260 para dar espaço ao relatório
+                const yBase = 260; 
                 const larguraLinha = 80;
 
                 doc.setLineDashPattern([], 0);
@@ -1592,7 +1593,8 @@ NOME DE QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
             doc.setFontSize(6);
             doc.setTextColor(0, 0, 0);
             const larguraPagina = 210;
-            let yRodape = 265;
+            // Ajustado yRodape de 265 para 272 para não colidir com a assinatura nova
+            let yRodape = 272;
 
             const texto1 = "ESTE TÉCNICO ARKLOK NÃO ESTÁ AUTORIZADO A REALIZAR A RETIRADA DE EQUIPAMENTOS OU PERIFÉRICOS.";
 	    	doc.setFontSize(7);
