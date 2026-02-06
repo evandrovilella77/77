@@ -441,22 +441,7 @@
         </div>
 
 
-        <!-- BLOCO VALIDAÇÃO SOFTWARE DE GESTÃO: -->
-
-        <h4>VALIDAÇÃO SOFTWARE DE GESTÃO</h4>
-
-        <div style="margin-top: 10px;">
-
-            <label style="margin-left: 15px;">AIM: <input type="checkbox" name="aim"></label>
-            <label style="margin-left: 15px;">KACE: <input type="checkbox" name="kace"></label>
-            <label style="margin-left: 15px;">OUTROS: <input type="checkbox" name="v_outros"></label>
-            <label style="margin-left: 15px; display: block;">
-                OBSERVAÇÕES:
-                <input id="observacoes" name="observacoes" maxlength="15" style="width: 180px; height: 10px;">
-                <div id="contador" style="font-size: 12px; color: gray; margin-top: 4px;">0 / 15 caracteres</div>
-            </label>
-
-        </div>
+        <!-- BLOCO VALIDAÇÃO SOFTWARE DE GESTÃO REMOVIDO CONFORME SOLICITAÇÃO -->
 
 
         <!-- Sintoma de problema relatado -->
@@ -570,15 +555,7 @@
 
 
 
-        // contador de caracteres1
-        const textarea = document.getElementById("observacoes");
-        const contador = document.getElementById("contador");
-
-        textarea.addEventListener("input", () => {
-            const length = textarea.value.length;
-            const max = textarea.maxLength;
-            contador.textContent = `${length} / ${max} caracteres`;
-        });
+        // contador de caracteres1 - REMOVIDO PARA ESTA VERSÃO (O campo observações foi deletado)
 
         // contador de caracteres2
         const textareaSintoma = document.getElementById("sintoma");
@@ -618,7 +595,7 @@
             const status = document.getElementById("status_chamado")?.value || "";
             const acompanhante = document.getElementById("nome_responsavel")?.value || "";
 
-            // Montagem do texto - Removidas frases iniciais conforme solicitado
+            // Montagem do texto - Removida a linha sobre retirada conforme solicitado
             let texto = `TÉCNICO: ${tecnico}
 PARCEIRO: ${parceiro}
 CLIENTE: ${cliente}
@@ -629,7 +606,6 @@ INÍCIO DA ATIVIDADE: ${inicio}
 TÉRMINO DA ATIVIDADE: ${termino}
 PROBLEMA IDENTIFICADO: ${problema}
 ATIVIDADE REALIZADA: ${atividade}
-OBS.: NÃO FOI RETIRADO NENHUM EQUIPAMENTO OU PERIFÉRICO DO CLIENTE.
 N.º PATRIMÔNIO/SERIAL: ${patrimonio} / ${serie}
 MODELO DO EQUIPAMENTO: ${modelo}
 STATUS DO CHAMADO: ${status}
@@ -831,7 +807,7 @@ NOME DE QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
             desenhandoCliente = true;
             const rect = canvasCliente.getBoundingClientRect();
             lastXCliente = e.touches[0].clientX - rect.left;
-            lastYCliente = e.touches[0].clientY - rect.top;
+            lastYCliente = e.touches[0].top;
             e.preventDefault();
         }, { passive: false });
         canvasCliente.addEventListener('touchend', () => desenhandoCliente = false);
@@ -960,7 +936,7 @@ NOME DE QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
             })(xInicio + larguraChamado, y, larguraData, "DATA DO ATENDIMENTO:", dataFormatada);
 
             // --- HORÁRIO ---
-            const xHorario = xInicio + larguraChamado + larguraData;
+            const xHorario = xHorarioLocal = xInicio + larguraChamado + larguraData;
             const altura = 5;
             const larguraTituloHorario = 20;
 
@@ -1351,83 +1327,10 @@ NOME DE QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
 
 
 
-            // BLOCO VALIDAÇÃO LINHA UNICA: 
-            function addBlocoValidacao(doc, x, y, larguraTotal, form) {
-                const alturaTitulo = 5;
-                const alturaBloco = 5;
-
-                doc.setLineWidth(0.3);
-                doc.setDrawColor(0);
-                doc.setLineDashPattern([0.3, 0.3], 0); 
-                doc.rect(x, y, larguraTotal, alturaBloco, 'S');
-                doc.setLineDashPattern([], 0);
-
-                doc.setFillColor(200, 0, 0);
-                doc.rect(x, y, larguraTotal, alturaTitulo, 'F');
-
-                doc.setFont(undefined, 'bold');
-                doc.setFontSize(9);
-                doc.setTextColor(255, 255, 255);
-                const yTexto = y + (alturaTitulo / 2) + 1.2; 
-                doc.text("VALIDAÇÃO SOFTWARE DE GESTÃO:", x + larguraTotal / 2, yTexto, { align: "center" });
-
-                return y + alturaBloco + 0.4;
-            }
+            // BLOCO VALIDAÇÃO REMOVIDO PARA ESTA VERSÃO DO PDF
 
 
-            // --- BLOCO VALIDAÇÃO SOFTWARE DE GESTÃO ---
-            function addBlocoValidacaoSoftware(doc, x, y, larguraTotal, form) {
-                const padding = 6;
-                const alturaLinha = 7;
-                const checkboxSize = 3;
-                const checkboxOffsetY = 1.2;
-                const spacing = 6;
-
-                doc.setFontSize(8);
-                doc.setTextColor(0, 0, 0);
-                doc.setFont("helvetica", "normal");
-
-                doc.setLineWidth(0.3);
-                doc.setDrawColor(0);
-                doc.setLineDashPattern([0.3, 0.3], 0); 
-                doc.rect(x, y, larguraTotal, alturaLinha, 'S');
-                doc.setLineDashPattern([], 0); 
-
-                function drawCheckbox(cx, cy, checked) {
-                    doc.setLineDashPattern([], 0);
-                    doc.rect(cx, cy - checkboxSize / 2 - checkboxOffsetY, checkboxSize, checkboxSize);
-                    if (checked) {
-                        doc.line(cx, cy - checkboxSize / 2 - checkboxOffsetY, cx + checkboxSize, cy + checkboxSize / 2 - checkboxOffsetY);
-                        doc.line(cx, cy + checkboxSize / 2 - checkboxOffsetY, cx + checkboxSize, cy - checkboxSize / 2 - checkboxOffsetY);
-                    }
-                }
-
-                const linhaY = y + 4;
-                const itensLinha = [
-                    { label: "AIM:", checked: form.aim.checked },
-                    { label: "KACE:", checked: form.kace.checked },
-                    { label: "OUTROS:", checked: form.v_outros.checked },
-                    { label: `OBSERVAÇÕES: ${(form.observacoes.value || "").toUpperCase()}`, checked: null }
-                ];
-
-                let cX = x + padding;
-                itensLinha.forEach(item => {
-                    doc.text(item.label, cX, linhaY);
-                    if (typeof item.checked === "boolean") {
-                        const posCheckbox = cX + doc.getTextWidth(item.label) + 1.5;
-                        drawCheckbox(posCheckbox, linhaY, item.checked);
-                        cX = posCheckbox + checkboxSize + spacing;
-                    } else {
-                        cX += doc.getTextWidth(item.label) + spacing;
-                    }
-                });
-
-                return y + alturaLinha + 2;
-            }
-
-
-
-            // BLOCO VALIDAÇÃO LINHA UNICA: 
+            // --- BLOCO SINTOMA DO PROBLEMA RELATADO ---
             function addBlocoSintoma(doc, x, y, larguraTotal, form) {
                 const alturaTitulo = 5;
                 const alturaBloco = 5;
@@ -1451,7 +1354,7 @@ NOME DE QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
             }
 
 
-            // --- BLOCO SINTOMA DO PROBLEMA RELATADO  ---
+            // --- CONTEÚDO SINTOMA ---
             function addBlocoSintomaProblema(doc, x, y, larguraTotal, form) {
                 const alturaBloco = 16;
 
@@ -1503,7 +1406,7 @@ NOME DE QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
 
             // --- BLOCO RELATÓRIO TÉCNICO - FECHAMENTO ---
             function addBlocoRelatorioTecnico(doc, x, y, larguraTotal, form) {
-                const alturaBloco = 30; 
+                const alturaBloco = 38; // Aumentado levemente para compensar o espaço ganho
                 const padding = 2;
 
                 doc.setLineWidth(0.3);
@@ -1523,7 +1426,7 @@ NOME DE QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
                 return y + alturaBloco + 5;
             }
 
-            // Execução dos blocos na ordem original
+            // Execução dos blocos na ordem original (com remoções)
             y = addBlocoDadosCliente(doc, xInicio, y, larguraTotal, form);
             y = addBlocoEquipamento(doc, xInicio, y, larguraTotal, form);
             y = addBlocoEquipamentoCorreto(doc, xInicio, y, larguraTotal, form);
@@ -1531,8 +1434,7 @@ NOME DE QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
             y = addBlocoModelo(doc, xInicio, y, larguraTotal, form);
             y = addBlocoBackup(doc, xInicio, y, larguraTotal, form);
             y = addBlocoBackupRealizado(doc, xInicio, y, larguraTotal, form);
-            y = addBlocoValidacao(doc, xInicio, y, larguraTotal, form);
-            y = addBlocoValidacaoSoftware(doc, xInicio, y, larguraTotal, form);
+            // Validação Software pulada
             y = addBlocoSintoma(doc, xInicio, y, larguraTotal, form);
             y = addBlocoSintomaProblema(doc, xInicio, y, larguraTotal, form);
             y = addBlocoFechamento(doc, xInicio, y, larguraTotal, form);
@@ -1551,7 +1453,6 @@ NOME DE QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
                 doc.setFont(undefined, 'normal');
 
                 const xCentroPagina = 105; 
-                // Aumentado yBase de 250 para 260 para dar espaço ao relatório
                 const yBase = 260; 
                 const larguraLinha = 80;
 
@@ -1593,7 +1494,6 @@ NOME DE QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
             doc.setFontSize(6);
             doc.setTextColor(0, 0, 0);
             const larguraPagina = 210;
-            // Ajustado yRodape de 265 para 272 para não colidir com a assinatura nova
             let yRodape = 272;
 
             const texto1 = "ESTE TÉCNICO ARKLOK NÃO ESTÁ AUTORIZADO A REALIZAR A RETIRADA DE EQUIPAMENTOS OU PERIFÉRICOS.";
