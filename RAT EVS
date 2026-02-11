@@ -1,0 +1,156 @@
+// script de fechamento
+function gerarScriptFechamento() {
+// Coleta de dados dos campos
+            const tecnico = (document.getElementById("tecnico")?.value || "").toUpperCase();
+            const parceiro = (document.getElementById("empresa")?.value || "").toUpperCase();
+            const cliente = (document.getElementById("razao_social")?.value || "").toUpperCase();
+            const endereco = (document.getElementById("endereco")?.value || "").toUpperCase();
+            const chamado = (document.getElementById("chamado")?.value || "").toUpperCase();
+            const data = document.getElementById("data")?.value || "";
+            const tecnico = document.getElementById("tecnico")?.value || "";
+            const parceiro = document.getElementById("empresa")?.value || "";
+            const cliente = document.getElementById("razao_social")?.value || "";
+			const endereco = document.getElementById("endereco")?.value || "";
+            const chamado = document.getElementById("chamado")?.value || "";
+			const data = document.getElementById("data")?.value || "";
+const inicio = document.getElementById("inicio")?.value || "";
+const termino = document.getElementById("termino")?.value || "";
+            const problema = (document.getElementById("sintoma")?.value || "").toUpperCase();
+            const atividade = (document.getElementById("relatorio")?.value || "").toUpperCase();
+            const patrimonio = (document.getElementById("patrimonio_a")?.value || "").toUpperCase();
+            const serie = (document.getElementById("serie_a")?.value || "").toUpperCase();
+            const modelo = (document.getElementById("modelo_a")?.value || "").toUpperCase();
+            const status = (document.getElementById("status_chamado")?.value || "").toUpperCase();
+            const acompanhante = (document.getElementById("nome_responsavel")?.value || "").toUpperCase();
+
+            // Formatação da data para DD/MM/AAAA
+            let dataFormatada = data;
+            if (data.includes("-")) {
+                const p = data.split("-");
+                dataFormatada = `${p[2]}/${p[1]}/${p[0]}`;
+            }
+
+            // Montagem do texto com negrito nos rótulos usando asteriscos
+            let texto = `*TÉCNICO:* ${tecnico}
+*PARCEIRO:* ${parceiro}
+*CLIENTE:* ${cliente}
+*ENDEREÇO:* ${endereco}
+*CHAMADO:* ${chamado}
+*DATA DO ATENDIMENTO:* ${dataFormatada}
+*INÍCIO DA ATIVIDADE:* ${inicio}
+*TÉRMINO DA ATIVIDADE:* ${termino}
+*PROBLEMA IDENTIFICADO:* ${problema}
+*ATIVIDADE REALIZADA:* ${atividade}
+*N.º PATRIMÔNIO/SERIAL:* ${patrimonio} / ${serie}
+*MODELO DO EQUIPAMENTO:* ${modelo}
+*STATUS DO CHAMADO:* ${status}
+*NOME DE QUEM ACOMPANHOU A ATIVIDADE:* ${acompanhante}`;
+            const problema = document.getElementById("sintoma")?.value || "";
+            const atividade = document.getElementById("relatorio")?.value || "";
+            const patrimonio = document.getElementById("patrimonio_a")?.value || "";
+            const serie = document.getElementById("serie_a")?.value || "";
+            const modelo = document.getElementById("modelo_a")?.value || "";
+            const status = document.getElementById("status_chamado")?.value || "";
+            const acompanhante = document.getElementById("nome_responsavel")?.value || "";
+
+            // Montagem do texto - Removida a linha sobre retirada conforme solicitado
+            let texto = `TÉCNICO: ${tecnico}
+PARCEIRO: ${parceiro}
+CLIENTE: ${cliente}
+ENDEREÇO: ${endereco}
+CHAMADO: ${chamado}
+DATA DO ATENDIMENTO: ${data}
+INÍCIO DA ATIVIDADE: ${inicio}
+TÉRMINO DA ATIVIDADE: ${termino}
+PROBLEMA IDENTIFICADO: ${problema}
+ATIVIDADE REALIZADA: ${atividade}
+N.º PATRIMÔNIO/SERIAL: ${patrimonio} / ${serie}
+MODELO DO EQUIPAMENTO: ${modelo}
+STATUS DO CHAMADO: ${status}
+NOME DE QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
+
+            texto = texto.toUpperCase().trim();
+
+// Detecta se está em celular
+const emCelular = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+@@ -642,13 +637,10 @@ <h4>O arquivo PDF gerado será salvo nos seus downloads</h4>
+balao.style.maxWidth = "90%";
+balao.style.maxHeight = "85%";
+balao.style.overflowY = "auto";
+                balao.style.fontSize = "14px";
+                balao.style.fontFamily = "sans-serif";
+                balao.style.fontSize = "12px";
+                balao.style.fontFamily = "monospace";
+balao.style.whiteSpace = "pre-wrap";
+                
+                // Exibição visual no balão (transforma *texto* em negrito real para o usuário ver)
+                const visualTexto = texto.replace(/\*(.*?)\*/g, "<strong>$1</strong>");
+                balao.innerHTML = `<div style="margin-bottom:15px;">${visualTexto}</div>`;
+                balao.textContent = texto;
+
+// Botão de compartilhar
+const botaoCompartilhar = document.createElement("button");
+@@ -661,27 +653,21 @@ <h4>O arquivo PDF gerado será salvo nos seus downloads</h4>
+botaoCompartilhar.style.borderRadius = "8px";
+botaoCompartilhar.style.padding = "10px 15px";
+botaoCompartilhar.style.display = "block";
+                botaoCompartilhar.style.width = "100%";
+                botaoCompartilhar.style.marginLeft = "auto";
+                botaoCompartilhar.style.marginRight = "auto";
+
+botaoCompartilhar.onclick = async () => {
+if (navigator.share) {
+try {
+await navigator.share({
+title: "Script de Fechamento",
+                                text: texto, // O texto vai com os asteriscos para o WhatsApp entender o negrito
+                                text: texto,
+});
+} catch (err) {
+                            // Erro silencioso
+                            alert("Compartilhamento cancelado ou não suportado.");
+}
+} else {
+                        // Fallback: copiar para área de transferência
+                        const el = document.createElement('textarea');
+                        el.value = texto;
+                        document.body.appendChild(el);
+                        el.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(el);
+                        alert("Texto copiado para a área de transferência!");
+                        alert("Este dispositivo não suporta compartilhamento direto.");
+}
+};
+
+@@ -696,7 +682,8 @@ <h4>O arquivo PDF gerado será salvo nos seus downloads</h4>
+botaoFechar.style.borderRadius = "8px";
+botaoFechar.style.padding = "10px 15px";
+botaoFechar.style.display = "block";
+                botaoFechar.style.width = "100%";
+                botaoFechar.style.marginLeft = "auto";
+                botaoFechar.style.marginRight = "auto";
+botaoFechar.onclick = () => document.body.removeChild(overlay);
+
+// Montagem do balão
+@@ -705,9 +692,9 @@ <h4>O arquivo PDF gerado será salvo nos seus downloads</h4>
+overlay.appendChild(balao);
+document.body.appendChild(overlay);
+} else {
+                // Computador: abre nova janela com o texto cru para copiar
+                // Computador: abre nova janela simples
+const novaJanela = window.open("", "ScriptFechamento", "width=700,height=600");
+                novaJanela.document.write(`<pre style="font-family: monospace; font-size: 16px; white-space: pre-wrap; padding:20px;">${texto}</pre>`);
+                novaJanela.document.write(`<pre style="font-family: monospace; font-size: 16px; white-space: pre-wrap;">${texto}</pre>`);
+novaJanela.document.title = "SCRIPT DE FECHAMENTO";
+}
+}
+@@ -760,7 +747,7 @@ <h4>O arquivo PDF gerado será salvo nos seus downloads</h4>
+desenhando = true; 
+const rect = canvas.getBoundingClientRect(); 
+lastX = e.touches[0].clientX - rect.left; 
+            lastY = e.touches[0].top; 
+            lastY = e.touches[0].clientY - rect.top; 
+e.preventDefault(); 
+}, { passive: false });
+canvas.addEventListener('touchend', () => desenhando = false);
