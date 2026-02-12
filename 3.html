@@ -571,7 +571,7 @@
         function gerarScriptFechamento() {
             // Coleta de dados dos campos
             const tecnico = document.getElementById("tecnico")?.value || "";
-            const parceiro = document.getElementById("empresa")?.value || "";
+            const PARCEIRO = document.getElementById("empresa")?.value || "";
             const cliente = document.getElementById("razao_social")?.value || "";
 			const endereco = document.getElementById("endereco")?.value || "";
             const chamado = document.getElementById("chamado")?.value || "";
@@ -588,10 +588,10 @@
 
             // Montagem do texto - Removida a linha sobre retirada conforme solicitado
             let texto = `TÉCNICO: ${tecnico}
-PARCEIRO: ${parceiro}
-CLIENTE: ${cliente}
-ENDEREÇO: ${endereco}
-CHAMADO: ${chamado}
+PARCEIRO: ${PARCEIRO}
+CLIENTE: ${CLIENTE}
+ENDEREÇO: ${ENDEREÇO}
+CHAMADO: ${CHAMADO}
 DATA DO ATENDIMENTO: ${data}
 INÍCIO DA ATIVIDADE: ${inicio}
 TÉRMINO DA ATIVIDADE: ${termino}
