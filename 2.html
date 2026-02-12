@@ -347,6 +347,8 @@
             <label style="margin-left: 15px;">DESKTOP: <input type="checkbox" name="desktop"></label>
             <label style="margin-left: 15px;">IMPRESSORA: <input type="checkbox" name="impressora"></label>
             <label style="margin-left: 15px;">MOBILE: <input type="checkbox" name="mobile"></label>
+			<label style="margin-left: 15px;">NOBREAK: <input type="checkbox" name="nobreak"></label>
+			<label style="margin-left: 15px;">MONITOR: <input type="checkbox" name="monitor"></label>
             <label style="margin-left: 15px; display: block;">
                 OUTROS:
                 <input type="text" id="outros" name="outros" maxlength="15" style="width: 180px;">
@@ -1094,6 +1096,8 @@ QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
                     { label: "DESKTOP:", checked: form.desktop.checked },
                     { label: "IMPRESSORA:", checked: form.impressora.checked },
                     { label: "MOBILE:", checked: form.mobile.checked },
+					{ label: "NOBREAK:", checked: form.nobreak.checked },
+					{ label: "MONITOR:", checked: form.monitor.checked },
                     { label: `OUTROS: ${(form.outros.value || "").toUpperCase()}`, checked: null }
                 ];
 
