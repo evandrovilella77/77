@@ -602,8 +602,9 @@ MODELO DO EQUIPAMENTO: ${modelo}
 STATUS DO CHAMADO: ${status}
 QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
 
-            texto = texto.toUpperCase().trim();
-
+            // Transformamos tudo em minúsculo e depois a primeira em maiúsculo
+texto = texto.trim().toLowerCase();
+texto = texto.charAt(0).toUpperCase() + texto.slice(1);
             // Detecta se está em celular
             const emCelular = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
