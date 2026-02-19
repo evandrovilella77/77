@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="pt-BR">	
 
@@ -569,127 +570,83 @@
 
         // script de fechamento
         function gerarScriptFechamento() {
-            // Coleta de dados dos campos
-            const tecnico = document.getElementById("tecnico")?.value || "";
-            const parceiro = document.getElementById("empresa")?.value || "";
-            const cliente = document.getElementById("razao_social")?.value || "";
-			const endereco = document.getElementById("endereco")?.value || "";
-            const chamado = document.getElementById("chamado")?.value || "";
-			const data = document.getElementById("data")?.value || "";
-            const inicio = document.getElementById("inicio")?.value || "";
-            const termino = document.getElementById("termino")?.value || "";
-            const problema = document.getElementById("sintoma")?.value || "";
-            const atividade = document.getElementById("relatorio")?.value || "";
-            const patrimonio = document.getElementById("patrimonio_a")?.value || "";
-            const serie = document.getElementById("serie_a")?.value || "";
-            const modelo = document.getElementById("modelo_a")?.value || "";
-            const status = document.getElementById("status_chamado")?.value || "";
-            const acompanhante = document.getElementById("nome_responsavel")?.value || "";
+        overlay.style.width = "100%";
+        overlay.style.height = "100%";
+        overlay.style.backgroundColor = "rgba(0,0,0,0.6)";
+        overlay.style.display = "flex";
+        overlay.style.alignItems = "center";
+        overlay.style.justifyContent = "center";
+        overlay.style.zIndex = "9999";
 
-            // Montagem do texto - Removida a linha sobre retirada conforme solicitado
-            let texto = `TÉCNICO: ${tecnico}
-PARCEIRO: ${parceiro}
-CLIENTE: ${cliente}
-ENDEREÇO: ${endereco}
-CHAMADO: ${chamado}
-DATA DO ATENDIMENTO: ${data}
-INÍCIO DA ATIVIDADE: ${inicio}
-TÉRMINO DA ATIVIDADE: ${termino}
-PROBLEMA IDENTIFICADO: ${problema}
-ATIVIDADE REALIZADA: ${atividade}
-N.º PATRIMÔNIO/SERIAL: ${patrimonio} / ${serie}
-MODELO DO EQUIPAMENTO: ${modelo}
-STATUS DO CHAMADO: ${status}
-QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
+        const balao = document.createElement("div");
+        balao.style.backgroundColor = "white";
+        balao.style.padding = "20px";
+        balao.style.borderRadius = "15px";
+        balao.style.maxWidth = "90%";
+        balao.style.maxHeight = "85%";
+        balao.style.overflowY = "auto";
+        balao.style.fontSize = "12px";
+        balao.style.fontFamily = "monospace";
+        balao.innerHTML = html;
 
-            texto = texto.toUpperCase().trim();
+        const botaoCompartilhar = document.createElement("button");
+        botaoCompartilhar.textContent = "📤 COMPARTILHAR";
+        botaoCompartilhar.style.marginTop = "15px";
+        botaoCompartilhar.style.fontSize = "18px";
+        botaoCompartilhar.style.backgroundColor = "#007bff";
+        botaoCompartilhar.style.color = "white";
+        botaoCompartilhar.style.border = "none";
+        botaoCompartilhar.style.borderRadius = "8px";
+        botaoCompartilhar.style.padding = "10px 15px";
+        botaoCompartilhar.style.display = "block";
+        botaoCompartilhar.style.marginLeft = "auto";
+        botaoCompartilhar.style.marginRight = "auto";
 
-            // Detecta se está em celular
-            const emCelular = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-            if (emCelular) {
-                // Cria o overlay do balão
-                const overlay = document.createElement("div");
-                overlay.style.position = "fixed";
-                overlay.style.top = "0";
-                overlay.style.left = "0";
-                overlay.style.width = "100%";
-                overlay.style.height = "100%";
-                overlay.style.backgroundColor = "rgba(0,0,0,0.6)";
-                overlay.style.display = "flex";
-                overlay.style.alignItems = "center";
-                overlay.style.justifyContent = "center";
-                overlay.style.zIndex = "9999";
-
-                const balao = document.createElement("div");
-                balao.style.backgroundColor = "white";
-                balao.style.padding = "20px";
-                balao.style.borderRadius = "15px";
-                balao.style.maxWidth = "90%";
-                balao.style.maxHeight = "85%";
-                balao.style.overflowY = "auto";
-                balao.style.fontSize = "12px";
-                balao.style.fontFamily = "monospace";
-                balao.style.whiteSpace = "pre-wrap";
-                balao.textContent = texto;
-
-                // Botão de compartilhar
-                const botaoCompartilhar = document.createElement("button");
-                botaoCompartilhar.textContent = "📤 COMPARTILHAR";
-                botaoCompartilhar.style.marginTop = "15px";
-                botaoCompartilhar.style.fontSize = "18px";
-                botaoCompartilhar.style.backgroundColor = "#007bff";
-                botaoCompartilhar.style.color = "white";
-                botaoCompartilhar.style.border = "none";
-                botaoCompartilhar.style.borderRadius = "8px";
-                botaoCompartilhar.style.padding = "10px 15px";
-                botaoCompartilhar.style.display = "block";
-                botaoCompartilhar.style.marginLeft = "auto";
-                botaoCompartilhar.style.marginRight = "auto";
-
-                botaoCompartilhar.onclick = async () => {
-                    if (navigator.share) {
-                        try {
-                            await navigator.share({
-                                title: "Script de Fechamento",
-                                text: texto,
-                            });
-                        } catch (err) {
-                            alert("Compartilhamento cancelado ou não suportado.");
-                        }
-                    } else {
-                        alert("Este dispositivo não suporta compartilhamento direto.");
-                    }
-                };
-
-                // Botão de fechar
-                const botaoFechar = document.createElement("button");
-                botaoFechar.textContent = "❌ FECHAR";
-                botaoFechar.style.marginTop = "10px";
-                botaoFechar.style.fontSize = "18px";
-                botaoFechar.style.backgroundColor = "#dc3545";
-                botaoFechar.style.color = "white";
-                botaoFechar.style.border = "none";
-                botaoFechar.style.borderRadius = "8px";
-                botaoFechar.style.padding = "10px 15px";
-                botaoFechar.style.display = "block";
-                botaoFechar.style.marginLeft = "auto";
-                botaoFechar.style.marginRight = "auto";
-                botaoFechar.onclick = () => document.body.removeChild(overlay);
-
-                // Montagem do balão
-                balao.appendChild(botaoCompartilhar);
-                balao.appendChild(botaoFechar);
-                overlay.appendChild(balao);
-                document.body.appendChild(overlay);
-            } else {
-                // Computador: abre nova janela simples
-                const novaJanela = window.open("", "ScriptFechamento", "width=700,height=600");
-                novaJanela.document.write(`<pre style="font-family: monospace; font-size: 16px; white-space: pre-wrap;">${texto}</pre>`);
-                novaJanela.document.title = "SCRIPT DE FECHAMENTO";
+        botaoCompartilhar.onclick = async () => {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: "Script de Fechamento",
+                        text: balao.innerText,
+                    });
+                } catch (err) {}
             }
-        }
+        };
 
+        const botaoFechar = document.createElement("button");
+        botaoFechar.textContent = "❌ FECHAR";
+        botaoFechar.style.marginTop = "10px";
+        botaoFechar.style.fontSize = "18px";
+        botaoFechar.style.backgroundColor = "#dc3545";
+        botaoFechar.style.color = "white";
+        botaoFechar.style.border = "none";
+        botaoFechar.style.borderRadius = "8px";
+        botaoFechar.style.padding = "10px 15px";
+        botaoFechar.style.display = "block";
+        botaoFechar.style.marginLeft = "auto";
+        botaoFechar.style.marginRight = "auto";
+        botaoFechar.onclick = () => document.body.removeChild(overlay);
+
+        balao.appendChild(botaoCompartilhar);
+        balao.appendChild(botaoFechar);
+        overlay.appendChild(balao);
+        document.body.appendChild(overlay);
+    } else {
+        const novaJanela = window.open("", "ScriptFechamento", "width=700,height=600");
+        novaJanela.document.write(`
+        <html>
+        <head>
+            <title>SCRIPT DE FECHAMENTO</title>
+            <style>
+                body { font-family: monospace; font-size: 16px; padding: 20px; }
+                strong { font-weight: bold; }
+            </style>
+        </head>
+        <body>${html}</body>
+        </html>
+        `);
+    }
+}
 
         // --- Assinatura tecnico ---
         const canvas = document.getElementById('assinatura');
