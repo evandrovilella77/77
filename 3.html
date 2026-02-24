@@ -567,27 +567,27 @@
             contadorRelatorio.textContent = `${comprimento} / 900 caracteres`;
         });
 
-        // script de fechamento
+        // script de fechamento - VERSÃO FINAL (Negrito + Minúsculo)
         function gerarScriptFechamento() {
-            // Coleta de dados dos campos
-            const tecnico = document.getElementById("tecnico")?.value || "").toLowerCase();
-            const parceiro = document.getElementById("empresa")?.value || "").toLowerCase();
-            const cliente = document.getElementById("razao_social")?.value || "").toLowerCase();
-			const endereco = document.getElementById("endereco")?.value || "").toLowerCase();
-            const chamado = document.getElementById("chamado")?.value || "").toLowerCase();
-			const data = document.getElementById("data")?.value || "").toLowerCase();
-            const inicio = document.getElementById("inicio")?.value || "").toLowerCase();
-            const termino = document.getElementById("termino")?.value || "").toLowerCase();
-            const problema = document.getElementById("sintoma")?.value || "").toLowerCase();
-            const atividade = document.getElementById("relatorio")?.value || "").toLowerCase();
-            const patrimonio = document.getElementById("patrimonio_a")?.value || "").toLowerCase();
-            const serie = document.getElementById("serie_a")?.value || "").toLowerCase();
-            const modelo = document.getElementById("modelo_a")?.value || "").toLowerCase();
-            const status = document.getElementById("status_chamado")?.value || "").toLowerCase();
-            const acompanhante = document.getElementById("nome_responsavel")?.value || "").toLowerCase();
+            // Coleta de dados dos campos e converte para minúsculo
+            const tecnico = (document.getElementById("tecnico")?.value || "").toLowerCase();
+            const parceiro = (document.getElementById("empresa")?.value || "").toLowerCase();
+            const cliente = (document.getElementById("razao_social")?.value || "").toLowerCase();
+            const endereco = (document.getElementById("endereco")?.value || "").toLowerCase();
+            const chamado = (document.getElementById("chamado")?.value || "").toLowerCase();
+            const data = (document.getElementById("data")?.value || "").toLowerCase();
+            const inicio = (document.getElementById("inicio")?.value || "").toLowerCase();
+            const termino = (document.getElementById("termino")?.value || "").toLowerCase();
+            const problema = (document.getElementById("sintoma")?.value || "").toLowerCase();
+            const atividade = (document.getElementById("relatorio")?.value || "").toLowerCase();
+            const patrimonio = (document.getElementById("patrimonio_a")?.value || "").toLowerCase();
+            const serie = (document.getElementById("serie_a")?.value || "").toLowerCase();
+            const modelo = (document.getElementById("modelo_a")?.value || "").toLowerCase();
+            const status = (document.getElementById("status_chamado")?.value || "").toLowerCase();
+            const acompanhante = (document.getElementById("nome_responsavel")?.value || "").toLowerCase();
 
-            // Montagem do texto - Removida a linha sobre retirada conforme solicitado
-            let texto = `TÉCNICO: ${tecnico}
+            // Montagem do texto com Rótulos em Negrito (*) e dados em minúsculo
+            let texto = `*TÉCNICO:* ${tecnico}
 *PARCEIRO:* ${parceiro}
 *CLIENTE:* ${cliente}
 *ENDEREÇO:* ${endereco}
@@ -602,13 +602,14 @@
 *STATUS DO CHAMADO:* ${status}
 *QUEM ACOMPANHOU A ATIVIDADE:* ${acompanhante}`;
 
-            texto = texto.toUpperCase().trim();
+            // Removemos o .toUpperCase() global e mantemos apenas o trim
+            texto = texto.trim();
 
             // Detecta se está em celular
             const emCelular = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
             if (emCelular) {
-                // Cria o overlay do balão
+                // Cria o overlay do balão (Mantendo sua estrutura de layout)
                 const overlay = document.createElement("div");
                 overlay.style.position = "fixed";
                 overlay.style.top = "0";
@@ -662,6 +663,33 @@
                     }
                 };
 
+                // Botão de fechar
+                const botaoFechar = document.createElement("button");
+                botaoFechar.textContent = "❌ FECHAR";
+                botaoFechar.style.marginTop = "10px";
+                botaoFechar.style.fontSize = "18px";
+                botaoFechar.style.backgroundColor = "#dc3545";
+                botaoFechar.style.color = "white";
+                botaoFechar.style.border = "none";
+                botaoFechar.style.borderRadius = "8px";
+                botaoFechar.style.padding = "10px 15px";
+                botaoFechar.style.display = "block";
+                botaoFechar.style.marginLeft = "auto";
+                botaoFechar.style.marginRight = "auto";
+                botaoFechar.onclick = () => document.body.removeChild(overlay);
+
+                balao.appendChild(botaoCompartilhar);
+                balao.appendChild(botaoFechar);
+                overlay.appendChild(balao);
+                document.body.appendChild(overlay);
+            } else {
+                // Computador: abre nova janela simples
+                const novaJanela = window.open("", "ScriptFechamento", "width=700,height=600");
+                novaJanela.document.write(`<pre style="font-family: monospace; font-size: 16px; white-space: pre-wrap;">${texto}</pre>`);
+                novaJanela.document.title = "SCRIPT DE FECHAMENTO";
+            }
+        };
+		
                 // Botão de fechar
                 const botaoFechar = document.createElement("button");
                 botaoFechar.textContent = "❌ FECHAR";
