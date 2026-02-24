@@ -570,21 +570,21 @@
         // script de fechamento
         function gerarScriptFechamento() {
             // Coleta de dados e converte para minúsculo
-            const tecnico = (document.getElementById("tecnico")?.value || "").toLowerCase();
-            const parceiro = (document.getElementById("empresa")?.value || "").toLowerCase();
-            const cliente = (document.getElementById("razao_social")?.value || "").toLowerCase();
-            const endereco = (document.getElementById("endereco")?.value || "").toLowerCase();
-            const chamado = (document.getElementById("chamado")?.value || "").toLowerCase();
-            const data = (document.getElementById("data")?.value || "").toLowerCase();
-            const inicio = (document.getElementById("inicio")?.value || "").toLowerCase();
-            const termino = (document.getElementById("termino")?.value || "").toLowerCase();
-            const problema = (document.getElementById("sintoma")?.value || "").toLowerCase();
-            const atividade = (document.getElementById("relatorio")?.value || "").toLowerCase();
-            const patrimonio = (document.getElementById("patrimonio_a")?.value || "").toLowerCase();
-            const serie = (document.getElementById("serie_a")?.value || "").toLowerCase();
-            const modelo = (document.getElementById("modelo_a")?.value || "").toLowerCase();
-            const status = (document.getElementById("status_chamado")?.value || "").toLowerCase();
-            const acompanhante = (document.getElementById("nome_responsavel")?.value || "").toLowerCase();
+            const tecnico = (document.getElementById("tecnico")?.value || "");
+            const parceiro = (document.getElementById("empresa")?.value || "");
+            const cliente = (document.getElementById("razao_social")?.value || "");
+            const endereco = (document.getElementById("endereco")?.value || "");
+            const chamado = (document.getElementById("chamado")?.value || "");
+            const data = (document.getElementById("data")?.value || "");
+            const inicio = (document.getElementById("inicio")?.value || "");
+            const termino = (document.getElementById("termino")?.value || "");
+            const problema = (document.getElementById("sintoma")?.value || "");
+            const atividade = (document.getElementById("relatorio")?.value || "");
+            const patrimonio = (document.getElementById("patrimonio_a")?.value || "");
+            const serie = (document.getElementById("serie_a")?.value || "");
+            const modelo = (document.getElementById("modelo_a")?.value || "");
+            const status = (document.getElementById("status_chamado")?.value || "");
+            const acompanhante = (document.getElementById("nome_responsavel")?.value || "");
 
             // Rótulos em Negrito (*) e conteúdo minúsculo
             let texto = `*TÉCNICO:* ${tecnico}
