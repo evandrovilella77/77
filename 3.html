@@ -467,12 +467,12 @@
                 STATUS DO CHAMADO:
                 <select name="status_chamado" id="status_chamado" required>
                     <option value="">--</option>
-                    <option value="CONCLUÍDO">CONCLUÍDO</option>
-                    <option value="PENDENTE">PENDENTE TROCA EQUIPAMENTO</option>
-					<option value="PENDENTE">PENDENTE RETORNO EQUIPAMENTO</option>
-					<option value="PENDENTE">PENDENTE PEÇA</option>
-                    <option value="IMPRODUTIVO">IMPRODUTIVO</option>
-					<option value="IMPRODUTIVO">DANOS NÃO COBERTOS</option>
+                    <option value="Concluído.">CONCLUÍDO</option>
+                    <option value="Pendente troca do equipamento.">PENDENTE TROCA DE EQUIPAMENTO</option>
+					<option value="Pendente retorno do equipamento antigo.">PENDENTE RETORNO EQUIPAMENTO</option>
+					<option value="Pendente peça.">PENDENTE PEÇA</option>
+                    <option value="Improdutivo.">IMPRODUTIVO</option>
+					<option value="Danos não cobertos.">DANOS NÃO COBERTOS</option>
                 </select>
             </label>
 
@@ -575,7 +575,9 @@
             const cliente = (document.getElementById("razao_social")?.value || "");
             const endereco = (document.getElementById("endereco")?.value || "");
             const chamado = (document.getElementById("chamado")?.value || "");
-            const data = (document.getElementById("data")?.value || "");
+            const dataRaw = (document.getElementById("data")?.value || "");
+			const p = dataRaw.split("-");
+			const data = dataRaw ? `${p[2]}/${p[1]}/${p[0]}` : "";
             const inicio = (document.getElementById("inicio")?.value || "");
             const termino = (document.getElementById("termino")?.value || "");
             const problema = (document.getElementById("sintoma")?.value || "");
