@@ -467,12 +467,12 @@
                 STATUS DO CHAMADO:
                 <select name="status_chamado" id="status_chamado" required>
                     <option value="">--</option>
-                    <option value="CONCLUÍDO">CONCLUÍDO</option>
-                    <option value="PENDENTE">PENDENTE TROCA EQUIPAMENTO</option>
-					<option value="PENDENTE">PENDENTE RETORNO EQUIPAMENTO</option>
-					<option value="PENDENTE">PENDENTE PEÇA</option>
-                    <option value="IMPRODUTIVO">IMPRODUTIVO</option>
-					<option value="IMPRODUTIVO">DANOS NÃO COBERTOS</option>
+                    <option value="Concluído.">CONCLUÍDO</option>
+                    <option value="Pendente troca do equipamento.">PENDENTE TROCA DE EQUIPAMENTO</option>
+					<option value="Pendente retorno do equipamento antigo.">PENDENTE RETORNO EQUIPAMENTO</option>
+					<option value="Pendente peça.">PENDENTE PEÇA</option>
+                    <option value="Improdutivo.">IMPRODUTIVO</option>
+					<option value="Danos não cobertos.">DANOS NÃO COBERTOS</option>
                 </select>
             </label>
 
@@ -569,46 +569,44 @@
 
         // script de fechamento
         function gerarScriptFechamento() {
-            // Coleta de dados dos campos
-            const tecnico = document.getElementById("tecnico")?.value || "";
-            const parceiro = document.getElementById("empresa")?.value || "";
-            const cliente = document.getElementById("razao_social")?.value || "";
-			const endereco = document.getElementById("endereco")?.value || "";
-            const chamado = document.getElementById("chamado")?.value || "";
-			const data = document.getElementById("data")?.value || "";
-            const inicio = document.getElementById("inicio")?.value || "";
-            const termino = document.getElementById("termino")?.value || "";
-            const problema = document.getElementById("sintoma")?.value || "";
-            const atividade = document.getElementById("relatorio")?.value || "";
-            const patrimonio = document.getElementById("patrimonio_a")?.value || "";
-            const serie = document.getElementById("serie_a")?.value || "";
-            const modelo = document.getElementById("modelo_a")?.value || "";
-            const status = document.getElementById("status_chamado")?.value || "";
-            const acompanhante = document.getElementById("nome_responsavel")?.value || "";
+            // Coleta de dados e converte para minúsculo
+            const tecnico = (document.getElementById("tecnico")?.value || "");
+            const parceiro = (document.getElementById("empresa")?.value || "");
+            const cliente = (document.getElementById("razao_social")?.value || "");
+            const endereco = (document.getElementById("endereco")?.value || "");
+            const chamado = (document.getElementById("chamado")?.value || "");
+            const data = (document.getElementById("data")?.value || "");
+            const inicio = (document.getElementById("inicio")?.value || "");
+            const termino = (document.getElementById("termino")?.value || "");
+            const problema = (document.getElementById("sintoma")?.value || "");
+            const atividade = (document.getElementById("relatorio")?.value || "");
+            const patrimonio = (document.getElementById("patrimonio_a")?.value || "");
+            const serie = (document.getElementById("serie_a")?.value || "");
+            const modelo = (document.getElementById("modelo_a")?.value || "");
+            const status = (document.getElementById("status_chamado")?.value || "");
+            const acompanhante = (document.getElementById("nome_responsavel")?.value || "");
 
-            // Montagem do texto - Removida a linha sobre retirada conforme solicitado
-            let texto = `TÉCNICO: ${tecnico}
-PARCEIRO: ${parceiro}
-CLIENTE: ${cliente}
-ENDEREÇO: ${endereco}
-CHAMADO: ${chamado}
-DATA DO ATENDIMENTO: ${data}
-INÍCIO DA ATIVIDADE: ${inicio}
-TÉRMINO DA ATIVIDADE: ${termino}
-PROBLEMA IDENTIFICADO: ${problema}
-ATIVIDADE REALIZADA: ${atividade}
-N.º PATRIMÔNIO/SERIAL: ${patrimonio} / ${serie}
-MODELO DO EQUIPAMENTO: ${modelo}
-STATUS DO CHAMADO: ${status}
-QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
+            // Rótulos em Negrito (*) e conteúdo minúsculo
+            let texto = `*TÉCNICO:* ${tecnico}
+*PARCEIRO:* ${parceiro}
+*CLIENTE:* ${cliente}
+*ENDEREÇO:* ${endereco}
+*CHAMADO:* ${chamado}
+*DATA DO ATENDIMENTO:* ${data}
+*INÍCIO DA ATIVIDADE:* ${inicio}
+*TÉRMINO DA ATIVIDADE:* ${termino}
+*PROBLEMA IDENTIFICADO:* ${problema}
+*ATIVIDADE REALIZADA:* ${atividade}
+*N.º PATRIMÔNIO/SERIAL:* ${patrimonio} / ${serie}
+*MODELO DO EQUIPAMENTO:* ${modelo}
+*STATUS DO CHAMADO:* ${status}
+*QUEM ACOMPANHOU A ATIVIDADE:* ${acompanhante}`;
 
-            texto = texto.toUpperCase().trim();
+            texto = texto.trim();
 
-            // Detecta se está em celular
             const emCelular = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
             if (emCelular) {
-                // Cria o overlay do balão
                 const overlay = document.createElement("div");
                 overlay.style.position = "fixed";
                 overlay.style.top = "0";
@@ -633,63 +631,47 @@ QUEM ACOMPANHOU A ATIVIDADE: ${acompanhante}`;
                 balao.style.whiteSpace = "pre-wrap";
                 balao.textContent = texto;
 
-                // Botão de compartilhar
-                const botaoCompartilhar = document.createElement("button");
-                botaoCompartilhar.textContent = "📤 COMPARTILHAR";
-                botaoCompartilhar.style.marginTop = "15px";
-                botaoCompartilhar.style.fontSize = "18px";
-                botaoCompartilhar.style.backgroundColor = "#007bff";
-                botaoCompartilhar.style.color = "white";
-                botaoCompartilhar.style.border = "none";
-                botaoCompartilhar.style.borderRadius = "8px";
-                botaoCompartilhar.style.padding = "10px 15px";
-                botaoCompartilhar.style.display = "block";
-                botaoCompartilhar.style.marginLeft = "auto";
-                botaoCompartilhar.style.marginRight = "auto";
+                const bComp = document.createElement("button");
+                bComp.textContent = "📤 COMPARTILHAR";
+                bComp.style.marginTop = "15px";
+                bComp.style.fontSize = "18px";
+                bComp.style.backgroundColor = "#007bff";
+                bComp.style.color = "white";
+                bComp.style.border = "none";
+                bComp.style.borderRadius = "8px";
+                bComp.style.padding = "10px 15px";
+                bComp.style.display = "block";
+                bComp.style.margin = "15px auto 0 auto";
 
-                botaoCompartilhar.onclick = async () => {
+                bComp.onclick = async () => {
                     if (navigator.share) {
-                        try {
-                            await navigator.share({
-                                title: "Script de Fechamento",
-                                text: texto,
-                            });
-                        } catch (err) {
-                            alert("Compartilhamento cancelado ou não suportado.");
-                        }
-                    } else {
-                        alert("Este dispositivo não suporta compartilhamento direto.");
-                    }
+                        try { await navigator.share({ title: "Script de Fechamento", text: texto }); } catch (err) { alert("Erro ao compartilhar."); }
+                    } else { alert("Não suportado neste dispositivo."); }
                 };
 
-                // Botão de fechar
-                const botaoFechar = document.createElement("button");
-                botaoFechar.textContent = "❌ FECHAR";
-                botaoFechar.style.marginTop = "10px";
-                botaoFechar.style.fontSize = "18px";
-                botaoFechar.style.backgroundColor = "#dc3545";
-                botaoFechar.style.color = "white";
-                botaoFechar.style.border = "none";
-                botaoFechar.style.borderRadius = "8px";
-                botaoFechar.style.padding = "10px 15px";
-                botaoFechar.style.display = "block";
-                botaoFechar.style.marginLeft = "auto";
-                botaoFechar.style.marginRight = "auto";
-                botaoFechar.onclick = () => document.body.removeChild(overlay);
+                const bSair = document.createElement("button");
+                bSair.textContent = "❌ FECHAR";
+                bSair.style.marginTop = "10px";
+                bSair.style.fontSize = "18px";
+                bSair.style.backgroundColor = "#dc3545";
+                bSair.style.color = "white";
+                bSair.style.border = "none";
+                bSair.style.borderRadius = "8px";
+                bSair.style.padding = "10px 15px";
+                bSair.style.display = "block";
+                bSair.style.margin = "10px auto 0 auto";
+                bSair.onclick = () => document.body.removeChild(overlay);
 
-                // Montagem do balão
-                balao.appendChild(botaoCompartilhar);
-                balao.appendChild(botaoFechar);
+                balao.appendChild(bComp);
+                balao.appendChild(bSair);
                 overlay.appendChild(balao);
                 document.body.appendChild(overlay);
             } else {
-                // Computador: abre nova janela simples
-                const novaJanela = window.open("", "ScriptFechamento", "width=700,height=600");
-                novaJanela.document.write(`<pre style="font-family: monospace; font-size: 16px; white-space: pre-wrap;">${texto}</pre>`);
-                novaJanela.document.title = "SCRIPT DE FECHAMENTO";
+                const win = window.open("", "ScriptFechamento", "width=700,height=600");
+                win.document.write(`<pre style="font-family: monospace; font-size: 16px; white-space: pre-wrap;">${texto}</pre>`);
+                win.document.title = "SCRIPT DE FECHAMENTO";
             }
         }
-
 
         // --- Assinatura tecnico ---
         const canvas = document.getElementById('assinatura');
