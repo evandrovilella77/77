@@ -567,9 +567,9 @@
             contadorRelatorio.textContent = `${comprimento} / 900 caracteres`;
         });
 
-        // script de fechamento - VERSÃO FINAL (Negrito + Minúsculo)
+        // script de fechamento
         function gerarScriptFechamento() {
-            // Coleta de dados dos campos e converte para minúsculo
+            // Coleta de dados e converte para minúsculo
             const tecnico = (document.getElementById("tecnico")?.value || "").toLowerCase();
             const parceiro = (document.getElementById("empresa")?.value || "").toLowerCase();
             const cliente = (document.getElementById("razao_social")?.value || "").toLowerCase();
@@ -586,7 +586,7 @@
             const status = (document.getElementById("status_chamado")?.value || "").toLowerCase();
             const acompanhante = (document.getElementById("nome_responsavel")?.value || "").toLowerCase();
 
-            // Montagem do texto com Rótulos em Negrito (*) e dados em minúsculo
+            // Rótulos em Negrito (*) e conteúdo minúsculo
             let texto = `*TÉCNICO:* ${tecnico}
 *PARCEIRO:* ${parceiro}
 *CLIENTE:* ${cliente}
@@ -602,14 +602,11 @@
 *STATUS DO CHAMADO:* ${status}
 *QUEM ACOMPANHOU A ATIVIDADE:* ${acompanhante}`;
 
-            // Removemos o .toUpperCase() global e mantemos apenas o trim
             texto = texto.trim();
 
-            // Detecta se está em celular
             const emCelular = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
             if (emCelular) {
-                // Cria o overlay do balão (Mantendo sua estrutura de layout)
                 const overlay = document.createElement("div");
                 overlay.style.position = "fixed";
                 overlay.style.top = "0";
@@ -634,90 +631,47 @@
                 balao.style.whiteSpace = "pre-wrap";
                 balao.textContent = texto;
 
-                // Botão de compartilhar
-                const botaoCompartilhar = document.createElement("button");
-                botaoCompartilhar.textContent = "📤 COMPARTILHAR";
-                botaoCompartilhar.style.marginTop = "15px";
-                botaoCompartilhar.style.fontSize = "18px";
-                botaoCompartilhar.style.backgroundColor = "#007bff";
-                botaoCompartilhar.style.color = "white";
-                botaoCompartilhar.style.border = "none";
-                botaoCompartilhar.style.borderRadius = "8px";
-                botaoCompartilhar.style.padding = "10px 15px";
-                botaoCompartilhar.style.display = "block";
-                botaoCompartilhar.style.marginLeft = "auto";
-                botaoCompartilhar.style.marginRight = "auto";
+                const bComp = document.createElement("button");
+                bComp.textContent = "📤 COMPARTILHAR";
+                bComp.style.marginTop = "15px";
+                bComp.style.fontSize = "18px";
+                bComp.style.backgroundColor = "#007bff";
+                bComp.style.color = "white";
+                bComp.style.border = "none";
+                bComp.style.borderRadius = "8px";
+                bComp.style.padding = "10px 15px";
+                bComp.style.display = "block";
+                bComp.style.margin = "15px auto 0 auto";
 
-                botaoCompartilhar.onclick = async () => {
+                bComp.onclick = async () => {
                     if (navigator.share) {
-                        try {
-                            await navigator.share({
-                                title: "Script de Fechamento",
-                                text: texto,
-                            });
-                        } catch (err) {
-                            alert("Compartilhamento cancelado ou não suportado.");
-                        }
-                    } else {
-                        alert("Este dispositivo não suporta compartilhamento direto.");
-                    }
+                        try { await navigator.share({ title: "Script de Fechamento", text: texto }); } catch (err) { alert("Erro ao compartilhar."); }
+                    } else { alert("Não suportado neste dispositivo."); }
                 };
 
-                // Botão de fechar
-                const botaoFechar = document.createElement("button");
-                botaoFechar.textContent = "❌ FECHAR";
-                botaoFechar.style.marginTop = "10px";
-                botaoFechar.style.fontSize = "18px";
-                botaoFechar.style.backgroundColor = "#dc3545";
-                botaoFechar.style.color = "white";
-                botaoFechar.style.border = "none";
-                botaoFechar.style.borderRadius = "8px";
-                botaoFechar.style.padding = "10px 15px";
-                botaoFechar.style.display = "block";
-                botaoFechar.style.marginLeft = "auto";
-                botaoFechar.style.marginRight = "auto";
-                botaoFechar.onclick = () => document.body.removeChild(overlay);
+                const bSair = document.createElement("button");
+                bSair.textContent = "❌ FECHAR";
+                bSair.style.marginTop = "10px";
+                bSair.style.fontSize = "18px";
+                bSair.style.backgroundColor = "#dc3545";
+                bSair.style.color = "white";
+                bSair.style.border = "none";
+                bSair.style.borderRadius = "8px";
+                bSair.style.padding = "10px 15px";
+                bSair.style.display = "block";
+                bSair.style.margin = "10px auto 0 auto";
+                bSair.onclick = () => document.body.removeChild(overlay);
 
-                balao.appendChild(botaoCompartilhar);
-                balao.appendChild(botaoFechar);
+                balao.appendChild(bComp);
+                balao.appendChild(bSair);
                 overlay.appendChild(balao);
                 document.body.appendChild(overlay);
             } else {
-                // Computador: abre nova janela simples
-                const novaJanela = window.open("", "ScriptFechamento", "width=700,height=600");
-                novaJanela.document.write(`<pre style="font-family: monospace; font-size: 16px; white-space: pre-wrap;">${texto}</pre>`);
-                novaJanela.document.title = "SCRIPT DE FECHAMENTO";
-            }
-        };
-		
-                // Botão de fechar
-                const botaoFechar = document.createElement("button");
-                botaoFechar.textContent = "❌ FECHAR";
-                botaoFechar.style.marginTop = "10px";
-                botaoFechar.style.fontSize = "18px";
-                botaoFechar.style.backgroundColor = "#dc3545";
-                botaoFechar.style.color = "white";
-                botaoFechar.style.border = "none";
-                botaoFechar.style.borderRadius = "8px";
-                botaoFechar.style.padding = "10px 15px";
-                botaoFechar.style.display = "block";
-                botaoFechar.style.marginLeft = "auto";
-                botaoFechar.style.marginRight = "auto";
-                botaoFechar.onclick = () => document.body.removeChild(overlay);
-
-                // Montagem do balão
-                balao.appendChild(botaoCompartilhar);
-                balao.appendChild(botaoFechar);
-                overlay.appendChild(balao);
-                document.body.appendChild(overlay);
-            } else {
-                // Computador: abre nova janela simples
-                const novaJanela = window.open("", "ScriptFechamento", "width=700,height=600");
-                novaJanela.document.write(`<pre style="font-family: monospace; font-size: 16px; white-space: pre-wrap;">${texto}</pre>`);
-                novaJanela.document.title = "SCRIPT DE FECHAMENTO";
+                const win = window.open("", "ScriptFechamento", "width=700,height=600");
+                win.document.write(`<pre style="font-family: monospace; font-size: 16px; white-space: pre-wrap;">${texto}</pre>`);
+                win.document.title = "SCRIPT DE FECHAMENTO";
             }
         }
-
 
         // --- Assinatura tecnico ---
         const canvas = document.getElementById('assinatura');
