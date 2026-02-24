@@ -575,7 +575,9 @@
             const cliente = (document.getElementById("razao_social")?.value || "");
             const endereco = (document.getElementById("endereco")?.value || "");
             const chamado = (document.getElementById("chamado")?.value || "");
-            const data = (document.getElementById("data")?.value || "");
+            const dataRaw = (document.getElementById("data")?.value || "");
+			const p = dataRaw.split("-");
+			const data = dataRaw ? `${p[2]}/${p[1]}/${p[0]}` : "";
             const inicio = (document.getElementById("inicio")?.value || "");
             const termino = (document.getElementById("termino")?.value || "");
             const problema = (document.getElementById("sintoma")?.value || "");
